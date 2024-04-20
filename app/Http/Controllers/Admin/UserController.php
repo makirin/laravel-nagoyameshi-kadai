@@ -1,36 +1,32 @@
 <?php
 
 namespace App\Http\Controllers\admin;
-
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        $users = User::paginate(15);
-
-        return view('users.index', compact('users'));
-    }
-
-    public function search()
+    public function index(Request $request)
     {
         $keyword = $request->keyword;
+        if ($keyword != null) {
+            $users = User::where('name', 'like', "%{$keyword}%") ->orWhere ('kana', 'like', "%{$keyword}%")->paginate(15);
+            $total = $users->total();
+        } else {
+            $users = User::paginate(15);
+            $total = "";
+            $keyword = null;
 
-        if ($keyword !== null) {
-            $users = User::where('name', 'like', "%{$keyword}%")
-            ->User::orWhere('kana', 'like', "%{$keyword}%")
-            ->paginate(15);
-            $total_count = $keyword->total();
-        }    
-        return view('users.index', compact('users','total_count'));
+        } 
+        return view('admin.users.index', compact('users','total','keyword'));
     }
 
     // showにする
-    public function show(User $user)
+    public function show($id)
     {
-        return view('users.show', compact('user'));
+        $user = User::find($id);
+        return view('admin.users.show', compact('user'));
     }    
 }
