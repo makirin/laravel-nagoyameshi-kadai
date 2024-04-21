@@ -11,22 +11,24 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->keyword;
-        if ($keyword != null) {
-            $users = User::where('name', 'like', "%{$keyword}%") ->orWhere ('kana', 'like', "%{$keyword}%")->paginate(15);
-            $total = $users->total();
+
+        if ($keyword !== null) {
+            $users = User::where('name', 'like', "%{$keyword}%")
+            ->orWhere('kana', 'like', "%{$keyword}%")
+            ->paginate(15);
+            $total = $users->count();
         } else {
             $users = User::paginate(15);
             $total = "";
             $keyword = null;
-
         } 
         return view('admin.users.index', compact('users','total','keyword'));
     }
 
-    // showにする
+
     public function show($id)
     {
         $user = User::find($id);
-        return view('admin.users.show', compact('user'));
+        return view('admin.users.show', compact('user','id'));
     }    
 }

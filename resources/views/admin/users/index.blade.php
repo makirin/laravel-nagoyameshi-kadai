@@ -16,7 +16,7 @@
                 </div>
 
                 <div>
-                    <p class="mb-0">計{{ $total }}件</p>
+                    <p class="mb-0">計{{($total)}}件</p>
                 </div>
 
 
