@@ -24,12 +24,10 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request) {
-        // バリデーションを設定する
         $request->validate([
             'name' => 'required',
         ]);
 
-        // フォームの入力内容をもとに、テーブルにデータを追加する
         $categories = new Category();
         $categories->name = $request->input('name');
         $categories->save();
@@ -37,20 +35,18 @@ class CategoryController extends Controller
         return redirect()->route('admin.categories.index')->with('flash_message', 'カテゴリを登録しました。');
     }    
 
-    public function update(Request $request) {
+    public function update(Request $request, Category $categories) {
         $request->validate([
             'name' => 'required',
         ]);
-
-        $categories->name = $request->input('name');
-        $categories->save();
+        
+        $categories->update(['name' => $request->input('name')]);
 
         return redirect()->route('admin.categories.index')->with('flash_message', 'カテゴリを編集しました。');
     }   
     
     public function destroy(Category $categories) {
         $categories->delete();
- 
-        return redirect()->route('admin.categories.index', compact('categories'))->with('flash_message', 'カテゴリを削除しました。');
+        return redirect()->route('admin.categories.index')->with('flash_message', 'カテゴリを削除しました。');
     }
 }

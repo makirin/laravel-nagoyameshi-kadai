@@ -34,7 +34,7 @@
                     <h5 class="modal-title" id="editCategoryModalLabel">カテゴリの編集</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                 </div>
-                <form action="" method="post" name="editCategoryForm">
+                <form action="{{ route('admin.categories.update') }}" method="post" name="editCategoryForm">
                     @csrf
                     @method('patch')
                     <div class="modal-body">
@@ -57,7 +57,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                 </div>
                 <div class="modal-footer">
-                    <form action="" method="post" name="deleteCategoryForm">
+                    <form action="{{ route('admin.categories.destroy') }}" method="post" name="deleteCategoryForm">
                         @csrf
                         @method('delete')
                         <button type="submit" class="btn text-white shadow-sm nagoyameshi-btn-danger">削除</button>
@@ -90,7 +90,7 @@
                 @endif
 
                 <div>
-                    <p class="mb-0">計{{($total)}}件</p>
+                    <p class="mb-0">計{{ number_format($total) }}件</p>
                 </div>
 
                 @if ($errors->any())
