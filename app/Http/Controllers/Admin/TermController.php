@@ -18,7 +18,10 @@ class TermController extends Controller
     }
 
     public function edit(Term $term)
-    {
+    {   
+        $id = 1;
+        $term = Term::find($id);   
+
         return view('admin.terms.edit', compact('term'));
     }
 
@@ -27,9 +30,9 @@ class TermController extends Controller
             'content' => 'required',
         ]);
 
-        $trem->content = $request->input('content');
-        $trem->save();
+        $term = Term::find(1); 
+        $term->update(['content' => $request->input('content')]);
 
-         return redirect()->route('admin.terms.update', compact('trem'))->with('flash_message', '利用規約を編集しました。');
+         return redirect()->route('admin.terms.update', compact('term'))->with('flash_message', '利用規約を編集しました。');
     } 
 }

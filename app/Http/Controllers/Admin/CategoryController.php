@@ -5,11 +5,13 @@ use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
     public function index(Request $request)
     {
+        Log::debug("log1");
         $keyword = $request->keyword;
 
         if ($keyword !== null) {
@@ -35,18 +37,26 @@ class CategoryController extends Controller
         return redirect()->route('admin.categories.index')->with('flash_message', 'カテゴリを登録しました。');
     }    
 
-    public function update(Request $request, Category $categories) {
+    public function update(Request $request, Category $categories, $id) {
+        Log::debug("log2");
+        Log::debug($request);
+        Log::debug($categories);
         $request->validate([
             'name' => 'required',
         ]);
-        
+
+        $categories = Category::find($id);
+        Log::debug($categories);
         $categories->update(['name' => $request->input('name')]);
+        Log::debug($categories);
 
         return redirect()->route('admin.categories.index')->with('flash_message', 'カテゴリを編集しました。');
     }   
     
-    public function destroy(Category $categories) {
+    public function destroy(Category $categories, $id) {
+        $categories = Category::find($id);
         $categories->delete();
+
         return redirect()->route('admin.categories.index')->with('flash_message', 'カテゴリを削除しました。');
     }
 }

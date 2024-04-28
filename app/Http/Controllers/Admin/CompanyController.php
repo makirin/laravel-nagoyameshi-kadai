@@ -19,6 +19,8 @@ class CompanyController extends Controller
 
     public function edit(Company $company)
     {
+        $id = 1;
+        $company = Company::find($id);   
         return view('admin.company.edit', compact('company'));
     }
 
@@ -34,15 +36,15 @@ class CompanyController extends Controller
             'number_of_employees' => 'required',
         ]);
 
-        $company->name = $request->input('name');
-        $company->postal_code = $request->input('postal_code');
-        $company->address = $request->input('address');
-        $company->representative = $request->input('representative');
-        $company->establishment_date = $request->input('establishment_date');
-        $company->capital = $request->input('capital');
-        $company->business = $request->input('business');
-        $company->number_of_employees = $request->input('number_of_employees');
-        $company->save();
+        $company = Company::find(1); 
+        $company->update(['name' => $request->input('name')]);
+        $company->update(['postal_code' => $request->input('postal_code')]);
+        $company->update(['address' => $request->input('address')]);
+        $company->update(['representative' => $request->input('representative')]);
+        $company->update(['establishment_date' => $request->input('establishment_date')]);
+        $company->update(['capital' => $request->input('capital')]);
+        $company->update(['business' => $request->input('business')]);
+        $company->update(['number_of_employees' => $request->input('number_of_employees')]);
 
         return redirect()->route('admin.company.update', compact('company'))->with('flash_message', '会社概要を編集しました。');
     }    

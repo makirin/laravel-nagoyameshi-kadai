@@ -15,4 +15,6 @@ class Category extends Model
     {
         return $this->belongsToMany(Restaurants::class);
     }
+
+    protected $fillable = ['name'];
 }

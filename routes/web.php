@@ -36,8 +36,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
     Route::delete('restaurants/edit={restaurant}', [Admin\RestaurantController::class, 'destroy'])->middleware(['auth', 'verified'])->name('restaurants.destroy');
     Route::get('categories/index', [Admin\CategoryController::class, 'index'])->name('categories.index');
     Route::post('categories/index', [Admin\CategoryController::class, 'store'])->middleware(['auth', 'verified'])->name('categories.store');
-    Route::patch('categories/index', [Admin\CategoryController::class, 'update'])->middleware(['auth', 'verified'])->name('categories.update');
-    Route::delete('categories/index', [Admin\CategoryController::class, 'destroy'])->middleware(['auth', 'verified'])->name('categories.destroy');
+    Route::patch('categories/{id}', [Admin\CategoryController::class, 'update'])->middleware(['auth', 'verified'])->name('categories.update');
+    Route::delete('categories/{id}', [Admin\CategoryController::class, 'destroy'])->middleware(['auth', 'verified'])->name('categories.destroy');
     Route::get('company/index', [Admin\CompanyController::class, 'index'])->name('company.index'); 
     Route::get('company/edit', [Admin\CompanyController::class, 'edit'])->middleware(['auth', 'verified'])->name('company.edit');
     Route::patch('company/index', [Admin\CompanyController::class, 'update'])->middleware(['auth', 'verified'])->name('company.update');
