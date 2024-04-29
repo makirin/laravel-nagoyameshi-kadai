@@ -1,11 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RestaurantController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +25,8 @@ require __DIR__.'/auth.php';
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function () {
     Route::get('home', [Admin\HomeController::class, 'index'])->name('home');
-    Route::get('users/index', [Admin\UserController::class, 'index'])->name('users.index');
-    Route::get('users/show/{id}', [Admin\UserController::class, 'show'])->name('users.show');
+    Route::get('users/index', [AdminUserController::class, 'index'])->name('users.index');
+    Route::get('users/show/{id}', [AdminUserController::class, 'show'])->name('users.show');
     Route::get('restaurants/index', [Admin\RestaurantController::class, 'index'])->name('restaurants.index');
     Route::get('restaurants/show={restaurant}', [Admin\RestaurantController::class, 'show'])->name('restaurants.show');
     Route::get('restaurants/create', [Admin\RestaurantController::class, 'create'])->middleware(['auth', 'verified'])->name('restaurants.create');
@@ -44,5 +47,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin
 });
 
 Route::group(['middleware' => 'guest:admin'], function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+        Route::get('/', [HomeController::class, 'index'])->name('home');
+        Route::resource('user', App\Http\Controllers\UserController::class)->middleware(['auth', 'verified']);
 });
