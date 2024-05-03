@@ -53,4 +53,5 @@ Route::group(['middleware' => 'guest:admin'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::resource('user', App\Http\Controllers\UserController::class)->middleware(['auth', 'verified']);
     Route::get('restaurants/index', [App\Http\Controllers\RestaurantController::class, 'index'])->middleware(['auth', 'verified'])->name('restaurants.index');
+    Route::get('restaurants/show={restaurant}', [App\Http\Controllers\RestaurantController::class, 'show'])->middleware(['auth', 'verified'])->name('restaurants.show');
 });
