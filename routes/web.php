@@ -1,11 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Middleware\Subscribed;
+use App\Http\Middleware\NotSubscribed;
 use App\Http\Controllers;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\SubscriptionController;
 
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\RestaurantController as AdminRestaurantController;
@@ -54,4 +56,12 @@ Route::group(['middleware' => 'guest:admin'], function () {
     Route::resource('user', App\Http\Controllers\UserController::class)->middleware(['auth', 'verified']);
     Route::get('restaurants/index', [App\Http\Controllers\RestaurantController::class, 'index'])->middleware(['auth', 'verified'])->name('restaurants.index');
     Route::get('restaurants/show={restaurant}', [App\Http\Controllers\RestaurantController::class, 'show'])->middleware(['auth', 'verified'])->name('restaurants.show');
+    Route::get('subscription/create', [SubscriptionController::class, 'create'])->middleware(['auth', 'verified', 'not.subscribed'])->name('subscription.create');
+    Route::post('subscription', [SubscriptionController::class, 'store'])->middleware(['auth', 'verified', 'not.subscribed'])->name('subscription.store');
+    Route::get('subscription/edit', [SubscriptionController::class, 'edit'])->middleware(['auth', 'verified', 'subscribed'])->name('subscription.edit');
+    Route::patch('subscription', [SubscriptionController::class, 'update'])->middleware(['auth', 'verified', 'subscribed'])->name('subscription.update');
+    Route::get('subscription/cancel', [SubscriptionController::class, 'cancel'])->middleware(['auth', 'verified', 'subscribed'])->name('subscription.cancel');
+    Route::delete('subscription', [SubscriptionController::class, 'destroy'])->middleware(['auth', 'verified', 'subscribed'])->name('subscription.destroy');
 });
+
+
