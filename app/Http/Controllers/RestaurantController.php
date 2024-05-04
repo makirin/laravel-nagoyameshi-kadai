@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class RestaurantController extends Controller
 {
@@ -17,7 +16,6 @@ class RestaurantController extends Controller
         $keyword = $request->keyword;
         $categories = Category::get();
         $category_id = $request->category_id;
-        Log::debug($category_id);
         $price = $request->price;
         $sorts = [
             '掲載日が新しい順' => 'created_at desc',
