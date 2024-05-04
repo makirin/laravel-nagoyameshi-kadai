@@ -40,7 +40,6 @@ class RestaurantController extends Controller
         } elseif ($category_id !== null) {
             $restaurants = Restaurants::whereHas('categories', function($query) use ($category_id){
                 $query->where('categories.id', $category_id);
-                Log::debug($category_id);
             })->sortable($sort_query)->orderBy('created_at', 'desc')->paginate(15);
             $total = $restaurants->count();
         } elseif ($price !== null) {
