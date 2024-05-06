@@ -8,7 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\SubscriptionController;
-
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\RestaurantController as AdminRestaurantController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -62,6 +62,8 @@ Route::group(['middleware' => 'guest:admin'], function () {
     Route::patch('subscription', [SubscriptionController::class, 'update'])->middleware(['auth', 'verified', 'subscribed'])->name('subscription.update');
     Route::get('subscription/cancel', [SubscriptionController::class, 'cancel'])->middleware(['auth', 'verified', 'subscribed'])->name('subscription.cancel');
     Route::delete('subscription', [SubscriptionController::class, 'destroy'])->middleware(['auth', 'verified', 'subscribed'])->name('subscription.destroy');
+    Route::resource('restaurants.reviews', ReviewController::class)->only(['index'])->middleware(['auth', 'verified']);
+    Route::resource('restaurants.reviews', ReviewController::class)->except(['index','show'])->middleware(['auth', 'verified', 'subscribed']);
 });
 
 

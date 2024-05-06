@@ -11,7 +11,7 @@ class RegularHoliday extends Model
 {
     use HasFactory;
 
-    public function restaurants(): BelongsToMany
+    public function Restaurant(): BelongsToMany
     {
         return $this->belongsToMany(Restaurants::class);
     }

@@ -11,9 +11,9 @@ class Category extends Model
 {
     use HasFactory;
 
-    public function restaurants(): BelongsToMany
+    public function Restaurant(): BelongsToMany
     {
-        return $this->belongsToMany(Restaurants::class);
+        return $this->belongsToMany(Restaurant::class);
     }
 
     protected $fillable = ['name'];

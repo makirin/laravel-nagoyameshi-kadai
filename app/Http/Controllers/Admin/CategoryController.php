@@ -50,7 +50,7 @@ class CategoryController extends Controller
         $categories->update(['name' => $request->input('name')]);
         Log::debug($categories);
 
-        return redirect()->route('admin.categories.index')->with('flash_message', 'カテゴリを編集しました。');
+        return redirect()->route('admin.categories.show')->with('flash_message', 'カテゴリを編集しました。');
     }   
     
     public function destroy(Category $categories, $id) {

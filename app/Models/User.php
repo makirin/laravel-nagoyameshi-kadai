@@ -8,6 +8,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Cashier\Billable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\DB;
+use Kyslik\ColumnSortable\Sortable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -49,4 +53,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

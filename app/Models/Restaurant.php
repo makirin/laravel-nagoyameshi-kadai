@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 
-class restaurants extends Model
+class Restaurant extends Model
 {
     use HasFactory, Sortable;
 
@@ -21,4 +21,14 @@ class restaurants extends Model
     {
         return $this->belongsToMany(RegularHoliday::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function ratingSortable($query, $direction) {
+        return $query->withAvg('reviews', 'score')->orderBy('reviews_avg_score', $direction);
+    }
+    
 }

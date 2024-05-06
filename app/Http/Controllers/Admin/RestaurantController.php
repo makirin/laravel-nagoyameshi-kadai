@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Models\Restaurants;
+use App\Models\Restaurant;
 use App\Models\Category;
 use App\Models\RegularHoliday;
 use App\Http\Controllers\Controller;
@@ -15,17 +15,17 @@ class RestaurantController extends Controller
         $keyword = $request->keyword;
 
         if ($keyword !== null) {
-            $restaurants = Restaurants::where('name', 'like', "%{$keyword}%")->paginate(15);
+            $restaurants = Restaurant::where('name', 'like', "%{$keyword}%")->paginate(15);
             $total = $restaurants->count();
         } else {
-            $restaurants = Restaurants::paginate(15);
+            $restaurants = Restaurant::paginate(15);
             $total = $restaurants->count();
             $keyword = null;
         } 
         return view('admin.restaurants.index', compact('restaurants','total','keyword'));
     }
 
-    public function show(Restaurants $restaurant)
+    public function show(Restaurant $restaurant)
     {
         return view('admin.restaurants.show', compact('restaurant'));
     }
@@ -33,7 +33,7 @@ class RestaurantController extends Controller
     public function create()
      {
         $categories = Category::get();
-        $restaurant = Restaurants::get();
+        $restaurant = Restaurant::get();
         $regular_holidays = RegularHoliday::get();
         return view('admin.restaurants.create',compact('restaurant','categories','regular_holidays'));
      }
@@ -54,7 +54,7 @@ class RestaurantController extends Controller
         ]);
 
         // フォームの入力内容をもとに、テーブルにデータを追加する
-        $restaurant = new Restaurants();
+        $restaurant = new Restaurant();
         $restaurant->name = $request->input('name');
         if ($request->hasFile('image')) {
             $image = $request->file('image')->store('storage/app/public/restaurants');
@@ -81,14 +81,14 @@ class RestaurantController extends Controller
         return redirect()->route('admin.restaurants.index')->with('flash_message', '店舗を登録しました。');
     }    
     
-    public function edit(Restaurants $restaurant){
+    public function edit(Restaurant $restaurant){
         $categories = Category::get();
         $regular_holidays = RegularHoliday::get();
         $category_ids = $restaurant->categories->pluck('id')->toArray();
         return view('admin.restaurants.edit', compact('restaurant','categories','category_ids','regular_holidays'));
     }
     
-     public function update(Request $request, Restaurants $restaurant){
+     public function update(Request $request, Restaurant $restaurant){
         $request->validate([
             'name' => 'required',
             'img' => 'file|mimes:jpg、jpeg、png、bmp、gif、svg、webp|max:2048',
@@ -128,7 +128,7 @@ class RestaurantController extends Controller
         return redirect()->route('admin.restaurants.show', compact('restaurant'))->with('flash_message', '店舗を編集しました。');
 
     }    
-    public function destroy(Restaurants $restaurant) {
+    public function destroy(Restaurant $restaurant) {
         $restaurant->delete();
  
         return redirect()->route('admin.restaurants.index', compact('restaurant'))->with('flash_message', '店舗を削除しました。');
