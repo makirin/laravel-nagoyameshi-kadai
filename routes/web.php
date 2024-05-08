@@ -10,6 +10,7 @@ use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\RestaurantController as AdminRestaurantController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -69,6 +70,9 @@ Route::group(['middleware' => 'guest:admin'], function () {
     Route::get('reservations/{restaurant}/reservations/create', [ReservationController::class, 'create'])->middleware(['auth', 'verified', 'subscribed'])->name('restaurants.reservations.create');
     Route::post('reservations/{restaurant}/reservations', [ReservationController::class, 'store'])->middleware(['auth', 'verified', 'subscribed'])->name('restaurants.reservations.store');
     Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->middleware(['auth', 'verified', 'subscribed'])->name('reservations.destroy');
+    Route::get('favorites', [FavoriteController::class, 'index'])->middleware(['auth', 'verified', 'subscribed'])->name('favorites.index');
+    Route::post('favorites/{restaurant_id}', [FavoriteController::class, 'store'])->middleware(['auth', 'verified', 'subscribed'])->name('favorites.store');
+    Route::delete('favorites/{restaurant_id}', [FavoriteController::class, 'destroy'])->middleware(['auth', 'verified', 'subscribed'])->name('favorites.destroy');
 });
 
 

@@ -27,6 +27,11 @@ class Restaurant extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     public function reservations()
     {
         return $this->hasMany(reservation::class);
